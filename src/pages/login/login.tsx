@@ -1,5 +1,7 @@
 import { Box, Button, Container, Grid, Paper, TextField, Typography } from "@mui/material"
 import { useState } from "react"
+import { useNotification } from "../../context/notifications.context"
+import { LoginValidate } from "../../utils/validateForm"
 
 
 type LoginType = {
@@ -9,6 +11,8 @@ type LoginType = {
 
 
 export const LoginPage:React.FC = ()=>{
+
+  const {getError, getSuccess} = useNotification()
 
   const [loginData, setLoginData] = useState<LoginType>({
     username: '',
@@ -24,8 +28,20 @@ export const LoginPage:React.FC = ()=>{
   };
 
   const handleSubmit = (event:React.FormEvent<HTMLInputElement>) => {
-      event.preventDefault();
-      console.log(loginData);
+      
+    event.preventDefault();
+
+    LoginValidate.validate(loginData).then(()=>{
+      
+      getSuccess(JSON.stringify(loginData));
+      //getSuccess(loginData) no funciona porque solicita el type loginData, necesita recibir un Objeto
+      
+    })
+    .catch((error)=>{
+      getError(error.message);
+    })
+
+      
   }
 
     return(
@@ -47,7 +63,6 @@ export const LoginPage:React.FC = ()=>{
                       name='username'
                          label='Email' 
                          sx={{marginTop:2, marginBottom:2}} margin="normal"
-                         required  
                       onChange={dataLogin}       
                    />
                    <TextField fullWidth 
@@ -55,7 +70,6 @@ export const LoginPage:React.FC = ()=>{
                        type="password"
                        label='Password' 
                        margin="normal"
-                       required
                       onChange={dataLogin}       
 
                    />
