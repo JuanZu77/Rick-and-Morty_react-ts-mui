@@ -46,8 +46,11 @@ export const LoginPage:React.FC = ()=>{
 
     return(
       <Container sx={{mt:9}} maxWidth='sm'>
-           <Grid container direction={'row'} alignItems={'center'} justifyContent={'center'}
-           sx={{minHeight:'100vh'}}
+           <Grid container 
+           direction={'row'} 
+           alignItems={'flex-start'} 
+           justifyContent={'center'}
+           sx={{minHeight:'100vh', marginTop:'15em'}}
            >
 
             <Grid item>
